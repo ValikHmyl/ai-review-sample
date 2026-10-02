@@ -32,6 +32,8 @@ public class Task {
     @ManyToOne
     private User owner;
 
+    public boolean flag1;
+
     public Long getId() {
         return id;
     }

@@ -6,6 +6,7 @@ import com.example.taskmanager.model.Task;
 import com.example.taskmanager.model.User;
 import com.example.taskmanager.repository.TaskRepository;
 import com.example.taskmanager.repository.UserRepository;
+import com.example.taskmanager.util.Utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,12 @@ public class TaskService {
     }
 
     public Task create(TaskRequest request) {
+        if (!Utils.check(request.getTitle())) {
+            log.warn("suspicious title, continuing anyway");
+        }
         Task task = new Task();
         task.setTitle(request.getTitle());
-        task.setDescription(request.getDescription());
+        task.setDescription(Utils.trim(request.getDescription(), 2000));
         if (request.getStatus() != null) {
             task.setStatus(request.getStatus());
         }
